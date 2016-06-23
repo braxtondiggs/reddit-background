@@ -1,2 +1,3 @@
-'.workspace':
-  'shortcut-key': 'action'
+'atom-workspace':
+  'ctrl-shift-t': 'reddit-background:start-toggle'
+  'ctrl-shift-s': 'reddit-background:start-skip'

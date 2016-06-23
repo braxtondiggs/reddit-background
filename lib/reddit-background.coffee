@@ -1,12 +1,23 @@
-#
-# * reddit-background
-# * https://github.com/braxtondiggs/reddit-background
-# *
-# * Copyright (c) 2016 braxtondiggs
-# * Licensed under the MIT license.
-# 
+{CompositeDisposable} = require 'atom'
+RedditBackgroundView = require "./reddit-background-view"
+configSchema = require "./config-schema"
 
-module.exports =
-  activate: (state) -> # ...
-  deactivate: -> # ...
-  serialize: -> # ...
+module.exports = RedditBackground =
+	redditBackgroundView: null
+	subscriptions: null
+	config: configSchema
+
+	activate: (state) ->
+		@redditBackgroundView = new RedditBackgroundView(state.redditBackgroundViewState)
+		document.body.appendChild @redditBackgroundView.getElement()
+
+		@subscriptions = new CompositeDisposable
+		@subscriptions.add atom.commands.add 'atom-workspace', 'reddit-background:toggle': @redditBackgroundView.toggle
+		@subscriptions.add atom.commands.add 'atom-workspace', 'reddit-background:skip': @redditBackgroundView.skip
+
+	deactivate: ->
+		@subscriptions.dispose()
+		@redditBackgroundView.destroy()
+
+	serialize: ->
+		redditBackgroundViewState: @redditBackgroundView.serialize()
