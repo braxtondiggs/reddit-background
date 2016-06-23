@@ -1,0 +1,14 @@
+{
+  "name": "reddit-background",
+  "main": "./lib/reddit-background",
+  "version": "0.0.0",
+  "description": "Change your Atom background to display any picture from multiple subreddits.",
+  "license": "MIT",
+  "private": true,
+  "repository": "https://github.com/braxtondiggs/reddit-background",
+  "engines": {
+    "atom": ">0.61.0"
+  },
+  "dependencies": {
+  }
+}
