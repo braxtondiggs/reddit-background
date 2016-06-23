@@ -1,16 +1,20 @@
 'menu': [
-  {
-    'label': 'Packages'
-    'submenu': [
-      {
-        'label': 'My Package'
-        'submenu': [
-          {
-            'label': 'yourLabel'
-            'command': 'my-package:toggle'
-          }
-        ]
-      }
-    ]
-  }
+	{
+		'label': 'Packages'
+		'submenu': [
+			{
+				'label': 'Reddit Background'
+				'submenu': [
+					{
+						'label': 'Toggle Refresh'
+						'command': 'reddit-background:toggle'
+					},
+					{
+						'label': 'Skip To Next Image'
+						'command': 'reddit-background:skip'
+					}
+				]
+			}
+		]
+	}
 ]
