@@ -20,18 +20,23 @@ class RedditBackgroundView
 		if enabled
 			@toggle()
 	toggle: ->
+		_this = this
 		if @refreshInterval
 			clearInterval @refreshInterval
 		else
 			@stop()
 			@load()
 			refreshDuration = atom.config.get 'reddit-background.refreshDuration'
-			@refreshInterval = setInterval @refresh, @refreshDuration*1000
+			@refreshInterval = setInterval((->
+				_this.skip()
+				return
+			), 1000)
+			#), 1000 * @refreshDuration)
 
 	refresh: ->
 		nsfw = atom.config.get 'reddit-background.nsfw'
-		if !_.isUndefined(data.children[i])
-			if !_.isUndefined(data.children[i].data.preview.images[0].source.url)
+		if !_.isUndefined(data and data.children and data.children[i])
+			if !_.isUndefined(data.children[i].data.preview and data.children[i].data.preview.images[0] and data.children[i].data.preview.images[0].source.url)
 				if !nsfw or (nsfw and !data.children[i].data.over_18)
 					@getImage data.children[i].data.preview.images[0].source.url
 				else
@@ -42,10 +47,10 @@ class RedditBackgroundView
 			@load()
 	load: ->
 		subreddits = _.replace(_.replace(_.join(_.toArray(atom.config.get('reddit-background.subreddits')), '+'), ' ', ''), '/r/', '')
-		query = reddit.hot(subreddits).limit(10)
+		query = reddit.hot(subreddits).limit(5)
 		_this = this
 		if !_.isUndefined(data)
-			search.after(data.after)
+			query.after(data.after)
 		query.fetch ((res) ->
 			if !_.isUndefined(data)
 				if !_.isUndefined(res.data.children)
@@ -68,7 +73,7 @@ class RedditBackgroundView
 				contentType = res.headers['content-type']
 				base64 = new Buffer(body).toString('base64')
 				dataUrl = 'url(\'data:' + contentType + ';base64,'+ base64 + '\')'
-				@background.style.background = dataUrl
+				@background.style.backgroundImage = dataUrl
 			else
 				atom.notifications.addError('Was unable to load image, moving to next available image.', {icon: 'alert'})
 				@refresh()
@@ -84,6 +89,7 @@ class RedditBackgroundView
 	serialize: ->
 
 	destroy: ->
+		@stop()
 		@background.remove()
 
 	getElement: ->
