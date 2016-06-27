@@ -5,7 +5,7 @@
         "email": "braxtondiggs@gmail.com"
     },
     "main": "./lib/reddit-background",
-    "version": "1.0.0",
+    "version": "0.0.0",
     "description": "Change your Atom background to display any picture from multiple subreddits.",
     "keywords": [
         "background",
